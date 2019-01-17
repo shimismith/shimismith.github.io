@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX","output/HTML-CSS"],
+      displayAlign: "left"
+    });
+  </script>
+  <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"
+  async>
+</script>
+</head>
+<body>
+<p>
+  $$\frac{\partial}{\partial \pi_k}\sum_{i=1}^N\sum_{k=1}^K r_k^{(i)} \Big[\log P(z^{(i)}=k) + \log P(x^{(i)} | z^{(i)}=k)\Big] + \log p(\pi) + \log p(\theta)$$
+      $$= \sum_{i=1}^N\sum_{k=1}^K r_k^{(i)}\frac{\partial}{\partial \pi_k}\Big[\log \pi_k + \log P(x^{(i)} | z^{(i)}=k)\Big] + \frac{\partial}{\partial \pi_k}\log p(\pi) + \frac{\partial}{\partial \pi_k}\log p(\theta)$$
+      $$=\sum_{i=1}^N\frac{r_k^{(i)}}{\pi_k} + \frac{\partial}{\partial \pi_k}\log p(\prod_{k=1}^K\pi_k^{a-1})$$
+      $$=\sum_{i=1}^N \frac{r_k^{(i)}}{\pi_k} + \frac{\partial}{\partial \pi_k}\sum_{k=1}^K \log p(\pi_k^{a-1})$$
+      $$=\sum_{i=1}^N\frac{r_k^{(i)}}{\pi_k} + \frac{a-1}{\pi_k} =
+      \frac{1}{\pi_k}(\sum_{i=1}^N r_k^{(i)} +  a - 1)$$
+
+      $$\mbox{The constraint is } \sum_{k=1}^K (\pi_k - 1) = 1$$ $$\mbox{and} \frac{\partial}{\partial \pi_k}\sum_{k=1}^K (\pi_k - 1) = 1$$
+      $$\mbox{so the lagrange problem is, }\frac{1}{\pi_k}(\sum_{i=1}^N r_k^{(i)} +  a - 1) - \lambda = 0$$
+      $$\pi_k = \frac{1}{\lambda}(\sum_{i=1}^N r_k^{(i)} +  a - 1)$$
+      $$1 = \sum_{k=1}^K\pi_k = \sum_{k=1}^K\frac{1}{\lambda}(\sum_{i=1}^N r_k^{(i)} +  a - 1) = \frac{1}{\lambda}\sum_{k=1}^K(\sum_{i=1}^N r_k^{(i)} +  a - 1)$$
+      $$\lambda = \sum_{k=1}^K\sum_{i=1}^N r_k^{(i)} +  \sum_{k=1}^K(a-1) = \sum_{i=1}^N\sum_{k=1}^K r_k^{(i)} +  K(a-1) = \sum_{i=1}^N1 +  K(a-1) = N + K(a-1)$$
+      $$\pi_k = \frac{(\sum_{i=1}^N r_k^{(i)}) + a-1}{N+K(a-1)}$$ $$\mbox{is the MAP solution for } \pi_k$$
+
+       $$\frac{\partial}{\partial \theta_{k,j}}(\sum_{i=1}^N\sum_{k=1}^K r_k^{(i)} \Big[\log P(z^{(i)}=k) + \log P(x^{(i)} | z^{(i)}=k)\Big] + \log p(\pi) + \log p(\theta))$$
+       $$=\frac{\partial}{\partial \theta_{k,j}}\sum_{i=1}^N\sum_{k=1}^K r_k^{(i)} \Big[\log P(z^{(i)}=k) + \log P(x^{(i)} | z^{(i)}=k)\Big] + \frac{\partial}{\partial \theta_{k,j}}\log p(\pi) + \frac{\partial}{\partial \theta_{k,j}}\log p(\theta)$$
+       $$=\sum_{i=1}^N \Bigg[\frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)} \log P(z^{(i)}=k) + \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\log P(x^{(i)} | z^{(i)}=k)\Bigg] + \frac{\partial}{\partial \theta_{k,j}}\log p(\theta)$$
+       $$=\sum_{i=1}^N \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\log P(x^{(i)} | z^{(i)}=k) + \frac{\partial}{\partial \theta_{k,j}}\log p(\theta)$$
+
+       $$\mbox{Consider } \frac{\partial}{\partial \theta_{k,j}}\log p(\theta)=\frac{\partial}{\partial \theta_{k,j}}\log p(\prod_{k,j}\theta_{k,j})=\frac{\partial}{\partial \theta_{k,j}}\sum_{k,j}\log p(\theta_{k,j})=\frac{\partial}{\partial \theta_{k,j}}\log p(\theta_{k,j})
+       $$
+       $$= \frac{\partial}{\partial \theta_{k,j}}\log (\theta_{k,j}^{a-1}(1-\theta_{k,j})^{b-1})
+       = \frac{\partial}{\partial \theta_{k,j}} ((a-1)\log \theta_{k,j} + (b-1)\log (1-\theta_{k,j})) = \frac{a-1}{\theta_{k,j}} - \frac{b-1}{1-\theta_{k,j}}
+       $$
+
+       $$\mbox{Now consider, } \sum_{i=1}^N \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\log P(x^{(i)} | z^{(i)}=k)$$
+       $$\sum_{i=1}^N \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\sum_{j=1}^D\log (\theta_{k,j}^{x_j^{(i)}}(1-\theta_{k,j})^{1-x_j^{(i)}})$$
+       $$\sum_{i=1}^N \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\sum_{j=1}^D\log (\theta_{k,j}^{x_j^{(i)}}(1-\theta_{k,j})^{1-x_j^{(i)}})$$
+       $$\sum_{i=1}^N \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\sum_{j=1}^D (x_j^{(i)}\log(\theta_{k,j}) + (1-x_j^{(i)})\log(1-\theta_{k,j}))$$
+       $$\sum_{i=1}^N \frac{\partial}{\partial \theta_{k,j}}\sum_{k=1}^K r_k^{(i)}\sum_{j=1}^D (x_j^{(i)}\log(\theta_{k,j}) + (1-x_j^{(i)})\log(1-\theta_{k,j}))$$
+       $$\sum_{i=1}^N \sum_{k=1}^K \sum_{j=1}^D \frac{\partial}{\partial \theta_{k,j}}r_k^{(i)}(x_j^{(i)}\log(\theta_{k,j}) + (1-x_j^{(i)})\log(1-\theta_{k,j}))$$
+       $$\sum_{i=1}^N r_k^{(i)}(\frac{x_j^{(i)}}{\theta_{k,j}} - \frac{1-x_j^{(i)}}{1-\theta_{k,j}})$$
+
+       $$\mbox{So, putting those two parts together and setting it to 0 we have, } \frac{a-1}{\theta_{k,j}} - \frac{b-1}{1-\theta_{k,j}} + \sum_{i=1}^N r_k^{(i)}(\frac{x_j^{(i)}}{\theta_{k,j}} - \frac{1-x_j^{(i)}}{1-\theta_{k,j}}) = 0$$
+       $$\frac{a-1}{\theta_{k,j}} - \frac{b-1}{1-\theta_{k,j}} + \frac{1}{\theta_{k,j}}\sum_{i=1}^N r_k^{(i)}x_j^{(i)} - \frac{1}{1-\theta_{k,j}}\sum_{i=1}^N r_k^{(i)} (1-x_j^{(i)}) = 0$$
+       $$\frac{a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}}{\theta_{k,j}}=\frac{b-1+\sum\limits_{i=1}^N r_k^{(i)} (1-x_j^{(i)})}{1-\theta_{k,j}}$$
+       $$\frac{1-\theta_{k,j}}{\theta_{k,j}}=\frac{b-1+\sum\limits_{i=1}^N r_k^{(i)} (1-x_j^{(i)})}{a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}}$$
+       $$\frac{1}{\theta_{k,j}}=\frac{b-1+\sum\limits_{i=1}^N r_k^{(i)} (1-x_j^{(i)})}{a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}} + 1
+       = \frac{b-1+\sum\limits_{i=1}^N r_k^{(i)} (1-x_j^{(i)}) + a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}}{a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}}$$
+       $$\frac{1}{\theta_{k,j}} = \frac{a + b - 2 + \sum\limits_{i=1}^N r_k^{(i)}}{a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}}$$
+       $$\theta_{k,j} = \frac{a-1+\sum\limits_{i=1}^N r_k^{(i)}x_j^{(i)}}{a + b - 2 + \sum\limits_{i=1}^N r_k^{(i)}}$$
+</p>
+</body>
+</html>
